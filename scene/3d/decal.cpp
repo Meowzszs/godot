@@ -42,6 +42,9 @@ Vector3 Decal::get_size() const {
 
 void Decal::set_texture(DecalTexture p_type, const Ref<Texture2D> &p_texture) {
 	ERR_FAIL_INDEX(p_type, TEXTURE_MAX);
+	if (p_texture.class_has_method("set_mesh")) {
+		ERR_INVALID_PARAMETER;
+	}
 	textures[p_type] = p_texture;
 	RID texture_rid = p_texture.is_valid() ? p_texture->get_rid() : RID();
 	RS::get_singleton()->decal_set_texture(decal, RS::DecalTexture(p_type), texture_rid);
